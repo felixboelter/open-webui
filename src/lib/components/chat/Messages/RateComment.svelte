@@ -16,22 +16,25 @@
 
 	function loadReasons() {
 		LIKE_REASONS = [
-			$i18n.t('Accurate information'),
-			$i18n.t('Followed instructions perfectly'),
-			$i18n.t('Showcased creativity'),
-			$i18n.t('Positive attitude'),
-			$i18n.t('Attention to detail'),
-			$i18n.t('Thorough explanation'),
-			$i18n.t('Other')
+			$i18n.t('Korrekte Lösung'),
+			$i18n.t('Klare Erklärung der Schritte'),
+			$i18n.t('Effiziente Methode verwendet'),
+			$i18n.t('Innovativer Ansatz'),
+			$i18n.t('Gute Problemlösungsstrategie'),
+			$i18n.t('Aufmerksamkeit für Details in den Berechnungen'),
+			$i18n.t('Gründliches Verständnis demonstriert'),
+			$i18n.t('Andere')
 		];
 
 		DISLIKE_REASONS = [
-			$i18n.t("Don't like the style"),
-			$i18n.t('Not factually correct'),
-			$i18n.t("Didn't fully follow instructions"),
-			$i18n.t("Refused when it shouldn't have"),
-			$i18n.t('Being lazy'),
-			$i18n.t('Other')
+			$i18n.t('Falsche Lösung'),
+			$i18n.t('Unklare Erklärung der Schritte'),
+			$i18n.t('Ineffiziente Methode verwendet'),
+			$i18n.t('Mangel an logischem Denken'),
+			$i18n.t('Fehler in den Berechnungen'),
+			$i18n.t('Unvollständige Lösung'),
+			$i18n.t('Die Anforderungen des Problems nicht erfüllt'),
+			$i18n.t('Andere')
 		];
 	}
 

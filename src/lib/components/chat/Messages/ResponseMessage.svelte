@@ -9,7 +9,7 @@
 
 	import { fade } from 'svelte/transition';
 	import { createEventDispatcher } from 'svelte';
-	import { onMount, tick, getContext } from 'svelte';
+	import { onMount, tick, getContext, afterUpdate } from 'svelte';
 
 	const i18n = getContext('i18n');
 
@@ -95,6 +95,47 @@
 		return html.replace(/^<a /, '<a target="_blank" rel="nofollow" ');
 	};
 
+	// Assume originalRenderer is the original rendering function for paragraphs
+	const originalRenderer = renderer.paragraph;
+
+	// State to track if we are inside a spoiler
+	let isInsideSpoiler = false;
+
+	renderer.paragraph = (text) => {
+		// Check for spoiler tags at the start of the paragraph
+		const spoilerStartTag = ":::";
+		let output = "";
+
+		if (text.trim().startsWith(spoilerStartTag)) {
+			// If the paragraph starts with the spoiler tag, prepare to handle it
+			const cleanedText = text.trim().substring(spoilerStartTag.length).trim(); // Remove the spoiler tag from the text
+			if (!isInsideSpoiler) {
+				// If not already inside a spoiler, start a new spoiler span
+				output += `<span class="spoiler">`;
+				isInsideSpoiler = true;
+			}
+			// Add the cleaned text to the output, ensuring any further spoiler tags in the text are handled
+			output += cleanedText.replace(new RegExp(`\\${spoilerStartTag}`, 'g'), "");
+		} else {
+			if (isInsideSpoiler) {
+				// If it was inside a spoiler but current paragraph isn't a spoiler, close the spoiler span
+				output += `</span>`;
+				isInsideSpoiler = false;
+			}
+			// Process the current paragraph with the original renderer outside of a spoiler
+			output += originalRenderer(text);
+		}
+
+		// If this is potentially the last paragraph in a spoiler, check and close the spoiler span
+		if (isInsideSpoiler && !text.trim().startsWith(spoilerStartTag)) {
+			output += `</span>`;
+			isInsideSpoiler = false;
+		}
+
+		return output;
+	};
+// Now, `renderer.paragraph` handles spoilers and then delegates to the original rendering logic.
+
 	const { extensions, ...defaults } = marked.getDefaults() as marked.MarkedOptions & {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		extensions: any;
@@ -112,7 +153,8 @@
 		}
 
 		renderLatex();
-
+		// processSpoilers();
+		renderSpoilers();
 		if (message.info) {
 			let tooltipContent = '';
 			if (message.info.openai) {
@@ -161,7 +203,66 @@
 			});
 		}
 	};
+	
+	const renderSpoilers = () => {
+		let chatMessageElements = document
+			.getElementById(`message-${message.id}`)
+			?.getElementsByClassName('chat-assistant');
 
+		if (chatMessageElements) {
+			for (const element of chatMessageElements) {
+				let spoilers = element.querySelectorAll('.spoiler');
+				for (const spoiler of spoilers) {
+					// Check if the spoiler has already been processed
+					if (spoiler.getAttribute('data-processed') !== 'true') {
+						// Add initial styles for hidden spoilers
+						spoiler.style.position = 'relative';
+						spoiler.style.backgroundColor = '#333';
+						spoiler.style.color = 'transparent';
+						spoiler.style.borderRadius = '5px';
+						spoiler.style.cursor = 'pointer';
+						spoiler.style.display = 'block';  // Make spoilers block-level elements
+						spoiler.style.padding = '2px 5px';
+						spoiler.style.margin = '5px 0';  // Add some margin for spacing
+						spoiler.style.userSelect = 'none';
+
+						// Create the "Click to show" label
+						const label = document.createElement('div');
+						label.textContent = 'Click to show';
+						label.style.position = 'absolute';
+						label.style.top = '0';
+						label.style.right = '0';
+						label.style.fontSize = '10px';
+						label.style.color = '#d1d5db';
+						label.style.backgroundColor = 'rgba(51, 51, 51, 0.5)';
+						label.style.padding = '2px 5px';
+						label.style.borderRadius = '3px';
+						label.style.pointerEvents = 'none'; // Make sure the label doesn't interfere with the click event
+
+						spoiler.appendChild(label);
+						spoiler.setAttribute('data-processed', 'true'); // Mark this spoiler as processed
+
+						// Event listener for toggling visibility
+						spoiler.addEventListener('click', () => {
+							let isRevealed = spoiler.style.color === 'transparent';
+							if (isRevealed) {
+								spoiler.style.color = '#d1d5db';
+								spoiler.style.userSelect = 'text';
+								label.style.display = 'none';
+								spoiler.style.transition = 'color 0.3s, background-color 0.3s';
+
+							} else {
+								spoiler.style.color = 'transparent';
+								spoiler.style.userSelect = 'none';
+								label.style.display = 'block';
+							}
+						});
+					}
+				}
+			}
+		}
+	};
+	
 	const renderLatex = () => {
 		let chatMessageElements = document
 			.getElementById(`message-${message.id}`)
@@ -173,11 +274,11 @@
 					// customised options
 					// • auto-render specific keys, e.g.:
 					delimiters: [
-						{ left: '$$', right: '$$', display: false },
-						{ left: '$ ', right: ' $', display: false },
+						{ left: '$$', right: '$$', display: true },
+						{ left: '$', right: '$', display: false },
 						{ left: '\\(', right: '\\)', display: false },
-						{ left: '\\[', right: '\\]', display: false },
-						{ left: '[ ', right: ' ]', display: false }
+						{ left: '\\[', right: '\\]', display: true },
+						{ left: '[', right: ']', display: false }
 					],
 					// • rendering keys, e.g.:
 					throwOnError: false
@@ -380,11 +481,11 @@
 	onMount(async () => {
 		await tick();
 		renderStyling();
-
 		await mermaid.run({
 			querySelector: '.mermaid'
 		});
 	});
+
 </script>
 
 <CitationsModal bind:show={showCitationModal} citation={selectedCitation} />
@@ -530,6 +631,7 @@
 											breaks: true,
 											renderer
 										})}
+
 									{/if}
 								{/each}
 							{/if}
