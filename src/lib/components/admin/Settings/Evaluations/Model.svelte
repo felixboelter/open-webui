@@ -29,7 +29,7 @@
 				<img
 					src={model.meta.profile_image_url}
 					alt={model.name}
-					class="size-8 rounded-full object-cover shrink-0"
+					class="size-8 object-cover shrink-0"
 				/>
 
 				<div class="w-full flex flex-col">

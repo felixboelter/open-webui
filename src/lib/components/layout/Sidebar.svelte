@@ -1125,6 +1125,18 @@
 						</div>
 					</div>
 				</Folder>
+				<div class="sidebar-image-container">
+					<img
+						src="/static/splash.png"
+						alt="splash"
+						class="sidebar-image dark:hidden"
+					/>
+					<img
+						src="/static/splash-dark.png"
+						alt="splash dark"
+						class="sidebar-image hidden dark:block"
+					/>
+				</div>	
 			</div>
 
 			<div class="px-1.5 pt-1.5 pb-2 sticky bottom-0 z-10 bg-gray-50 dark:bg-gray-950 sidebar">
@@ -1160,6 +1172,27 @@
 {/if}
 
 <style>
+	:global(.sidebar-image-container) {
+        width: 100%;
+        height: auto;
+        opacity: 1;
+        margin-top: auto;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 0px;
+        background-color: transparent;
+        padding: 10px;
+        border-radius: 0px 8px 0px 8px;
+    }
+	:global(html.dark) :global(.sidebar-image-container) {
+		background-color: white;
+	}
+
+    .sidebar-image {
+        width: 100%;
+        height: auto;
+        opacity: 1;
+    }
 	.scrollbar-hidden:active::-webkit-scrollbar-thumb,
 	.scrollbar-hidden:focus::-webkit-scrollbar-thumb,
 	.scrollbar-hidden:hover::-webkit-scrollbar-thumb {
