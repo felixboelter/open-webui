@@ -854,14 +854,9 @@
 			</Folder>
 		<div class="sidebar-image-container">
 			<img
-				src="/static/splash.png"
+				src="/static/sidebar.png"
 				alt="splash"
-				class="sidebar-image dark:hidden"
-			/>
-			<img
-				src="/static/splash-dark.png"
-				alt="splash dark"
-				class="sidebar-image hidden dark:block"
+				class="sidebar-image"
 			/>
 		</div>	
 	</div>
@@ -901,23 +896,19 @@
 
 <style>
 	:global(.sidebar-image-container) {
-        width: 100%;
-        height: auto;
-        opacity: 1;
-        margin-top: auto;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 0px;
-        background-color: transparent;
-        padding: 10px;
-        border-radius: 0px 8px 0px 8px;
-    }
-	:global(html.dark) :global(.sidebar-image-container) {
+		position: sticky;
+		bottom: 0px;
+		width: 100%;
+		padding: 0px;
 		background-color: white;
+		border-radius: 0px 8px 0px 8px;
+		z-index: 10;
 	}
 
     .sidebar-image {
-        width: 100%;
+        width: 95%;
+    	margin-right: auto;
+		margin-left: auto;
         height: auto;
         opacity: 1;
     }
