@@ -159,7 +159,7 @@
 				<div class="flex items-center gap-1.5">
 					<Tooltip content={$i18n.t('Manage Models')}>
 						<button
-							class=" p-1 rounded-full flex gap-1 items-center"
+							class=" p-1 flex gap-1 items-center"
 							type="button"
 							on:click={() => {
 								showManageModal = true;
@@ -213,14 +213,14 @@
 						>
 							<div class=" self-center w-8">
 								<div
-									class=" rounded-full object-cover {(model?.is_active ?? true)
+									class="object-cover {(model?.is_active ?? true)
 										? ''
 										: 'opacity-50 dark:opacity-50'} "
 								>
 									<img
 										src={model?.meta?.profile_image_url ?? '/static/favicon.png'}
 										alt="modelfile profile"
-										class=" rounded-full w-full h-auto object-cover"
+										class="w-full h-auto object-cover"
 									/>
 								</div>
 							</div>

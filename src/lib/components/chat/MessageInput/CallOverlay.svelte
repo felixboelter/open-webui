@@ -738,7 +738,7 @@
 								? ' size-16'
 								: rmsLevel * 100 > 1
 									? 'size-14'
-									: 'size-12'}  transition-all rounded-full {(model?.info?.meta
+									: 'size-12'}  transition-all {(model?.info?.meta
 							?.profile_image_url ?? '/static/favicon.png') !== '/static/favicon.png'
 							? ' bg-cover bg-center bg-no-repeat'
 							: 'bg-black dark:bg-white'}  bg-black dark:bg-white"

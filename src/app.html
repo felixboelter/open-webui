@@ -6,7 +6,7 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 		<link rel="shortcut icon" href="/favicon/favicon.ico" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-		<meta name="apple-mobile-web-app-title" content="Open WebUI" />
+		<meta name="apple-mobile-web-app-title" content="HPI Assistant" />
 		<link rel="manifest" href="/favicon/site.webmanifest" />
 		<meta
 			name="viewport"
@@ -14,11 +14,11 @@
 		/>
 		<meta name="theme-color" content="#171717" />
 		<meta name="robots" content="noindex,nofollow" />
-		<meta name="description" content="Open WebUI" />
+		<meta name="description" content="HPI Assistant" />
 		<link
 			rel="search"
 			type="application/opensearchdescription+xml"
-			title="Open WebUI"
+			title="HPI Assistant"
 			href="/opensearch.xml"
 		/>
 
@@ -76,7 +76,7 @@
 			})();
 		</script>
 
-		<title>Open WebUI</title>
+		<title>HPI Assistant</title>
 
 		%sveltekit.head%
 	</head>
@@ -94,18 +94,8 @@
 				}
 			</style>
 
-			<img
-				id="logo"
-				style="
-					position: absolute;
-					width: auto;
-					height: 6rem;
-					top: 44%;
-					left: 50%;
-					transform: translateX(-50%);
-				"
-				src="/static/splash.png"
-			/>
+			<img id="logo-light" src="/static/splash.png" class="logo" />
+			<img id="logo-dark" src="/static/splash-dark.png" class="logo" />
 
 			<div
 				style="
@@ -174,9 +164,28 @@
 	html.dark #splash-screen {
 		background: #000;
 	}
+	
+	.logo {
+		position: absolute;
+		width: auto;
+		height: 16rem;
+		top: 35%;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: white;
+	}
 
-	html.dark #splash-screen img {
-		filter: invert(1);
+	#logo-dark {
+		display: none;
+	}
+
+	/* Show dark logo when dark mode is enabled */
+	html.dark #logo-light {
+		display: none;
+	}
+
+	html.dark #logo-dark {
+		display: block;
 	}
 
 	html.her #splash-screen {

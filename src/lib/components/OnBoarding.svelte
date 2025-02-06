@@ -20,7 +20,7 @@
 					<img
 						crossorigin="anonymous"
 						src="{WEBUI_BASE_URL}/static/favicon.png"
-						class=" w-6 rounded-full"
+						class=" w-6"
 						alt="logo"
 					/>
 				</div>

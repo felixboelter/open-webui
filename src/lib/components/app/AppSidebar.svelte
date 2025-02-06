@@ -50,7 +50,7 @@
 		>
 			<img
 				src="/static/favicon.png"
-				class="size-10 {selected === '' ? 'rounded-2xl' : 'rounded-full'}"
+				class="size-10"
 				alt="logo"
 				draggable="false"
 			/>
