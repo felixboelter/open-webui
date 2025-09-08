@@ -335,7 +335,7 @@
 							<img
 								src={model?.meta?.profile_image_url ?? `${WEBUI_BASE_URL}/static/favicon.png`}
 								alt="modelfile profile"
-								class=" rounded-full w-full h-auto object-cover"
+								class=" w-full h-auto object-cover"
 							/>
 						</div>
 					</div>

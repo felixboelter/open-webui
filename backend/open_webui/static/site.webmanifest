@@ -1,6 +1,6 @@
 {
-  "name": "Open WebUI",
-  "short_name": "WebUI",
+  "name": "The HPI Assistant",
+  "short_name": "HPI Assistant",
   "icons": [
     {
       "src": "/static/web-app-manifest-192x192.png",
